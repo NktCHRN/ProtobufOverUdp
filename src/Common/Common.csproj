@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>ProtobufOverUdp.Common</PackageId>
+        <Version>1.0.1</Version>
+        <Authors>Nikita Chernikov</Authors>
+        <Description>ProtobufOverUdp.Common is a useful library for sending protobufs over the UDP protocol. For receiving and parsing protobufs, use ProtobufOverUdp.Listener NuGet package.</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/NktCHRN/ProtobufOverUdp</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.33.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.0" />
+    </ItemGroup>
+
+</Project>

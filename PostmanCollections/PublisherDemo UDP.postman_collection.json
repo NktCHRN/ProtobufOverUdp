@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "8b83d969-b8a8-477d-8b51-ece0512bf55d",
+		"name": "PublisherDemo UDP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20224052"
+	},
+	"item": [
+		{
+			"name": "SendStatus",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Message\": {\r\n        \"Number\": 1,\r\n        \"Description\": \"It is working!\",\r\n        \"Code\": \"Success\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendNotification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Message\": {\r\n        \"Text\": \"Hello world!\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/notifications",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5082",
+			"type": "default"
+		}
+	]
+}

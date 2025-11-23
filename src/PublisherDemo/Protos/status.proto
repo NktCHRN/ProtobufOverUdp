@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtobufOverUdpExample.Grpc";
+
+package udp_example;
+
+message Status
+{
+  int32 number = 1;
+  string description = 2;
+  StatusCode code = 3;
+}
+
+enum StatusCode
+{
+  StatusCode_Undefined = 0;
+  StatusCode_Success = 1;
+}

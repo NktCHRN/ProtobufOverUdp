@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtobufOverUdpExample.Grpc";
+
+package udp_example;
+
+message Notification
+{
+  string id = 1;
+  string text = 2;
+}
