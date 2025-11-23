@@ -30,7 +30,16 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
                 var parsedMessage = UdpMessageBodyParser.ParseBody(received.Buffer, type);
                 
                 var handleMethod = handlerType.GetMethod("HandleAsync", [type, typeof(CancellationToken)]);
-                handleMethod!.Invoke(handler, [parsedMessage, stoppingToken]);
+                var result = handleMethod!.Invoke(handler, [parsedMessage, stoppingToken]);
+                
+                if (result is Task task)
+                {
+                    await task;
+                }
+                else
+                {
+                    throw new InvalidOperationException("HandleAsync must return a Task.");
+                }
             }
             catch (OperationCanceledException)
             {

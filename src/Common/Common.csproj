@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>ProtobufOverUdp.Common</PackageId>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <Authors>Nikita Chernikov</Authors>
         <Description>ProtobufOverUdp.Common is a useful library for sending protobufs over the UDP protocol. For receiving and parsing protobufs, use ProtobufOverUdp.Listener NuGet package.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
