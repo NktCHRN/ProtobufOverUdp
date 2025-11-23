@@ -11,7 +11,7 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Udp status listener started");
+        logger.LogInformation("Udp listener started");
         
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -41,7 +41,8 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
                     throw new InvalidOperationException("HandleAsync must return a Task.");
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException operationCanceledException) when (
+                operationCanceledException.CancellationToken == stoppingToken || stoppingToken.IsCancellationRequested)
             {
                 // Expected on shutdown → exit loop
                 break;
@@ -54,7 +55,7 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "UDP listener error, continuing.");
+                logger.LogError(ex, "UDP listener error occurred, continuing.");
 
                 if (ex is not ArgumentException)
                 {
@@ -63,6 +64,6 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
             }
         }
 
-        logger.LogInformation("Udp status listener completed");
+        logger.LogInformation("Udp listener completed.");
     }
 }

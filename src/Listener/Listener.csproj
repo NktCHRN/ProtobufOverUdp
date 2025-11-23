@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>ProtobufOverUdp.Listener</PackageId>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <Authors>Nikita Chernikov</Authors>
         <Description>ProtobufOverUdp.Listener is a useful library for receiving and parsing protobufs.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
