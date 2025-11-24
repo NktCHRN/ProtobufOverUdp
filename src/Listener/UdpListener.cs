@@ -1,18 +1,18 @@
 ﻿using System.Net.Sockets;
 using Common;
+using Listener.Containers;
 using Listener.Parsing;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Listener;
 
-public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpService, IServiceProvider serviceProvider, IUdpMessageTypeParser typeParser) : BackgroundService
+public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpService, IUdpMessageChannelContainer channelContainer, IUdpMessageTypeParser typeParser) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Udp listener started");
-        
+        logger.LogInformation("UDP listener started.");
+       
         while (!stoppingToken.IsCancellationRequested)
         {
             try
@@ -20,26 +20,10 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
                 var received = await udpService.ReceiveAsync(stoppingToken);
 
                 var type = typeParser.GetType(received.Buffer);
-                
-                await using var scope = serviceProvider.CreateAsyncScope();
 
-                var handlerType = typeof(IUdpMessageHandler<>).MakeGenericType(type);
-                var handler = scope.ServiceProvider.GetService(handlerType)
-                    ?? throw new InvalidOperationException($"No handler registered for type {handlerType}");
-
-                var parsedMessage = UdpMessageBodyParser.ParseBody(received.Buffer, type);
+                var writer = channelContainer.GetWriter(type);
                 
-                var handleMethod = handlerType.GetMethod("HandleAsync", [type, typeof(CancellationToken)]);
-                var result = handleMethod!.Invoke(handler, [parsedMessage, stoppingToken]);
-                
-                if (result is Task task)
-                {
-                    await task;
-                }
-                else
-                {
-                    throw new InvalidOperationException("HandleAsync must return a Task.");
-                }
+                await writer.WriteAsync(received, stoppingToken);
             }
             catch (OperationCanceledException operationCanceledException) when (
                 operationCanceledException.CancellationToken == stoppingToken || stoppingToken.IsCancellationRequested)
@@ -64,6 +48,7 @@ public sealed class UdpListener(ILogger<UdpListener> logger, IUdpService udpServ
             }
         }
 
-        logger.LogInformation("Udp listener completed.");
+        channelContainer.CompleteWriters();
+        logger.LogInformation("UDP listener completed.");
     }
 }

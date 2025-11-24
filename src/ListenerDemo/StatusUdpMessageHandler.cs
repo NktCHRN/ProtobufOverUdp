@@ -9,7 +9,7 @@ public sealed class StatusUdpMessageHandler(ILogger<StatusUdpMessageHandler> log
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.LogInformation("Received status message {Number} {Description} Code:{Code}; Current Time: {CurrentTime}.", message.Number,
+            logger.LogInformation("Received & completed status message {Number} {Description} Code:{Code}; Current Time: {CurrentTime}.", message.Number,
                 message.Description, message.Code, DateTimeOffset.UtcNow);
         }
         

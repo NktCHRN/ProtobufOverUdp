@@ -5,7 +5,7 @@ namespace Listener;
 
 public sealed class NotificationUdpMessageHandler(ILogger<StatusUdpMessageHandler> logger) : IUdpMessageHandler<Notification>
 {
-    public Task HandleAsync(Notification message, CancellationToken token)
+    public async Task HandleAsync(Notification message, CancellationToken token)
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
@@ -13,6 +13,12 @@ public sealed class NotificationUdpMessageHandler(ILogger<StatusUdpMessageHandle
                 message.Text, DateTimeOffset.UtcNow);
         }
         
-        return Task.CompletedTask;
+        await Task.Delay(10000, token); // Heavy handler.
+        
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Completed notification {Id} {Text}; Current Time: {CurrentTime}.", message.Id,
+                message.Text, DateTimeOffset.UtcNow);
+        }
     }
 }

@@ -8,7 +8,10 @@ var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices((context, services) =>
 {
     services.AddUdpService(context.Configuration);
-    services.AddUdpListener();
+    services.AddUdpListener(opt =>
+    {
+        //opt.MaxDegreeOfParallelism = 100;
+    });
     services.AddUdpMessageHandler<Status, StatusUdpMessageHandler>();
     services.AddUdpMessageHandler<Notification, NotificationUdpMessageHandler>();
 });
