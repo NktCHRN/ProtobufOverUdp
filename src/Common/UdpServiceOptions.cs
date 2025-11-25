@@ -1,9 +1,13 @@
-﻿namespace Common;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Common;
 
 public class UdpServiceOptions
 {
-    public ushort Port { get; set; }
+    [Range(0, ushort.MaxValue)]
+    public int Port { get; set; }
     
     public string? DestinationIpAddress { get; set; }
-    public ushort? DestinationPort { get; set; }
+    [Range(0, ushort.MaxValue)]
+    public int? DestinationPort { get; set; }
 }
