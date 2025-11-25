@@ -30,7 +30,7 @@ public class UdpService : IUdpService, IDisposable
         return SendMessageAsync(message, _options.DestinationIpAddress, _options.DestinationPort.Value);
     }
 
-    public async Task SendMessageAsync(IMessage message, string ipAddress, ushort port)
+    public async Task SendMessageAsync(IMessage message, string ipAddress, int port)
     {
         var data = message.ToUdpByteArray();
         await _udpClient.SendAsync(data, data.Length, ipAddress, port);

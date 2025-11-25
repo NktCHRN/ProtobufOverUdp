@@ -7,5 +7,5 @@ public interface IUdpService
 {
     Task<UdpReceiveResult> ReceiveAsync(CancellationToken cancellationToken);
     Task SendMessageAsync(IMessage message);
-    Task SendMessageAsync(IMessage message, string ipAddress, ushort port);
+    Task SendMessageAsync(IMessage message, string ipAddress, int port);
 }
